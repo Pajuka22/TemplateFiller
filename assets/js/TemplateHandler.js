@@ -122,8 +122,12 @@ function ParseCSV() {
             var zip = new JSZip();
             fill.forEach(obj=>{
                 if(obj.saveas === "") return;
+                
                 const template = Handlebars.compile("<!DOCTYPE html><html>" + document.getElementById("renderer").innerHTML + "</html>")
                 const txt = template(obj)
+                
+                uploadFile(obj.saveas, txt)
+
                 zip.file(obj.saveas+".html", txt)
             })
             SetUpEditor();
@@ -220,7 +224,7 @@ function RenameParam(oldname, newname){
         params[newname] = params[oldname]
     }
     else{
-        params[newname].concat(params[oldname]);
+        params[newname] = params[newname].concat(params[oldname]);
     }
     delete params[oldname]
     ReloadParamsDisplay();
